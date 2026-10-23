@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Replace the address below with your real site address once it is live.
+Sitemap: https://YOUR-USERNAME.github.io/shefa-forex-academy/sitemap.xml
