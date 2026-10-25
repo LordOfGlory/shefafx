@@ -2,6 +2,7 @@ import PageHeader from '../components/PageHeader'
 import SectionHeading from '../components/SectionHeading'
 import Reveal from '../components/Reveal'
 import InstructorProfile from '../components/InstructorProfile'
+import { instructorConfigured } from '../config/academy'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { academy } from '../config/academy'
 
@@ -94,6 +95,7 @@ export default function About() {
         </div>
       </section>
 
+      {instructorConfigured() && (
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
         <Reveal>
           <SectionHeading eyebrow="Instructor" title="Instructor profile" />
@@ -102,6 +104,7 @@ export default function About() {
           </div>
         </Reveal>
       </section>
+      )}
     </>
   )
 }

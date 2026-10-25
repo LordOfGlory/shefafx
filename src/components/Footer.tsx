@@ -49,32 +49,41 @@ export default function Footer() {
           <p className="text-sm font-semibold text-white">Contact</p>
           <ul className="mt-4 grid gap-2 text-sm">
             <li>{academy.location}</li>
-            <li>Email: {hasEmail() ? academy.contact.email : pending}</li>
+            <li>
+              Email:{' '}
+              {hasEmail() ? (
+                <a className="underline hover:text-white" href={`mailto:${academy.contact.email}`}>
+                  {academy.contact.email}
+                </a>
+              ) : (
+                pending
+              )}
+            </li>
             <li>Telephone: {hasPhone() ? academy.contact.phone : pending}</li>
             <li>
               WhatsApp:{' '}
               {hasWhatsapp() ? (
                 <a className="underline hover:text-white" href={whatsappLink()} target="_blank" rel="noreferrer">
-                  Chat on WhatsApp
+                  {academy.contact.phone || 'Chat on WhatsApp'}
                 </a>
               ) : (
                 pending
               )}
             </li>
           </ul>
-          <p className="mt-5 text-sm font-semibold text-white">Social media</p>
-          {socials.length ? (
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              {socials.map((s) => (
-                <li key={s.label}>
-                  <a className="underline hover:text-white" href={s.url} target="_blank" rel="noreferrer">
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-3 text-sm">{pending}</p>
+          {socials.length > 0 && (
+            <>
+              <p className="mt-5 text-sm font-semibold text-white">Social media</p>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                {socials.map((s) => (
+                  <li key={s.label}>
+                    <a className="underline hover:text-white" href={s.url} target="_blank" rel="noreferrer">
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </div>
       </div>

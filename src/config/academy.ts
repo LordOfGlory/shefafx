@@ -20,9 +20,9 @@ export const academy = {
 
   /** Contact details. Leave empty until you have them. */
   contact: {
-    email: '', // e.g. 'info@yourdomain.com'. Forms open the visitor's email app addressed to this.
-    phone: '', // e.g. '+256 700 000000'
-    whatsapp: '', // digits only with country code, e.g. '256700000000'
+    email: 'shefaventurez@outlook.com',
+    phone: '+256 763 533 786',
+    whatsapp: '256763533786',
   },
 
   /** Full web addresses, e.g. 'https://www.facebook.com/yourpage'. Leave empty to hide the link. */

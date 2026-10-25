@@ -33,7 +33,13 @@ export default function Contact() {
               <Mail className="mt-1 h-5 w-5 shrink-0 text-gold-deep" aria-hidden="true" />
               <span>
                 <strong className="block text-navy">Email</strong>
-                {hasEmail() ? academy.contact.email : pending}
+                {hasEmail() ? (
+                  <a className="underline" href={`mailto:${academy.contact.email}`}>
+                    {academy.contact.email}
+                  </a>
+                ) : (
+                  pending
+                )}
               </span>
             </li>
             <li className="flex gap-4">
@@ -49,30 +55,28 @@ export default function Contact() {
                 <strong className="block text-navy">WhatsApp</strong>
                 {hasWhatsapp() ? (
                   <a className="underline" href={whatsappLink()} target="_blank" rel="noreferrer">
-                    Chat on WhatsApp
+                    {academy.contact.phone || 'Chat on WhatsApp'}
                   </a>
                 ) : (
                   pending
                 )}
               </span>
             </li>
+            {socials.length > 0 && (
             <li className="flex gap-4">
               <Share2 className="mt-1 h-5 w-5 shrink-0 text-gold-deep" aria-hidden="true" />
               <span>
                 <strong className="block text-navy">Social media</strong>
-                {socials.length ? (
-                  <span className="flex flex-wrap gap-x-5">
-                    {socials.map(([label, url]) => (
-                      <a key={label} className="underline" href={url} target="_blank" rel="noreferrer">
-                        {label}
-                      </a>
-                    ))}
-                  </span>
-                ) : (
-                  pending
-                )}
+                <span className="flex flex-wrap gap-x-5">
+                  {socials.map(([label, url]) => (
+                    <a key={label} className="underline" href={url} target="_blank" rel="noreferrer">
+                      {label}
+                    </a>
+                  ))}
+                </span>
               </span>
             </li>
+            )}
           </ul>
         </div>
 

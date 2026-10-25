@@ -7,7 +7,7 @@ import CourseCard from '../components/CourseCard'
 import JourneySteps from '../components/JourneySteps'
 import InstructorProfile from '../components/InstructorProfile'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { academy } from '../config/academy'
+import { academy, instructorConfigured } from '../config/academy'
 import { course } from '../data/course'
 
 const features = [
@@ -97,6 +97,7 @@ export default function Home() {
         </div>
       </section>
 
+      {instructorConfigured() && (
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
         <Reveal>
           <SectionHeading eyebrow="Your instructor" title="Learn from your instructor" />
@@ -105,6 +106,7 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+      )}
 
       <section className="border-t border-slate-200 bg-mist">
         <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
