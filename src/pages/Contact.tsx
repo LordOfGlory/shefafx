@@ -2,7 +2,7 @@ import { Mail, MapPin, MessageCircle, Phone, Share2 } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import ContactForm from '../components/ContactForm'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { academy, hasEmail, hasPhone, hasWhatsapp, whatsappLink } from '../config/academy'
+import { academy, hasEmail, hasPhone, hasWhatsapp, safeHttps, whatsappLink } from '../config/academy'
 
 const pending = <span className="italic text-slate-500">To be added</span>
 
@@ -13,7 +13,7 @@ export default function Contact() {
     ['Instagram', academy.social.instagram],
     ['TikTok', academy.social.tiktok],
     ['YouTube', academy.social.youtube],
-  ].filter(([, url]) => url.trim())
+  ].filter(([, url]) => safeHttps(url))
 
   return (
     <>
@@ -54,7 +54,7 @@ export default function Contact() {
               <span>
                 <strong className="block text-navy">WhatsApp</strong>
                 {hasWhatsapp() ? (
-                  <a className="underline" href={whatsappLink()} target="_blank" rel="noreferrer">
+                  <a className="underline" href={whatsappLink()} target="_blank" rel="noopener noreferrer">
                     {academy.contact.phone || 'Chat on WhatsApp'}
                   </a>
                 ) : (
@@ -69,7 +69,7 @@ export default function Contact() {
                 <strong className="block text-navy">Social media</strong>
                 <span className="flex flex-wrap gap-x-5">
                   {socials.map(([label, url]) => (
-                    <a key={label} className="underline" href={url} target="_blank" rel="noreferrer">
+                    <a key={label} className="underline" href={safeHttps(url)} target="_blank" rel="noopener noreferrer">
                       {label}
                     </a>
                   ))}
@@ -82,7 +82,7 @@ export default function Contact() {
 
         <div>
           <h2 className="text-2xl font-semibold text-navy">Send an inquiry</h2>
-          <p className="mb-6 mt-2 text-ink-muted">Fill in the form and we will prepare an email to the academy for you.</p>
+          <p className="mb-6 mt-2 text-ink-muted">Send your question. The academy replies by email or WhatsApp.</p>
           <ContactForm />
         </div>
       </section>

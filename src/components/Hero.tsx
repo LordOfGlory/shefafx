@@ -5,14 +5,7 @@ import { course } from '../data/course'
 
 export default function Hero() {
   return (
-    <section
-      className="bg-navy text-white"
-      style={{
-        backgroundImage:
-          'linear-gradient(rgba(120,150,210,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(120,150,210,.08) 1px, transparent 1px)',
-        backgroundSize: '56px 56px',
-      }}
-    >
+    <section className="grid-fade bg-navy text-white">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:py-20">
         <div className="hero-in min-w-0">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-gold">

@@ -38,6 +38,21 @@ h3 {
   outline-offset: 3px;
 }
 
+.grid-fade {
+  background-image:
+    linear-gradient(rgba(120, 150, 210, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 210, 0.08) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(14px);

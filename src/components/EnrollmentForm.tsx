@@ -1,104 +1,116 @@
 import { useState, type FormEvent } from 'react'
-import { academy, hasEmail } from '../config/academy'
 import { course } from '../data/course'
-import { buildMailto, EMAIL_PATTERN, type Errors } from '../lib/mailto'
+import { sendInquiry } from '../lib/capture'
+import { choiceError, clean, emailError, messageError, nameError, oneLine, phoneError, type Errors } from '../lib/validate'
 import FormField, { inputClass } from './FormField'
-import PreparedMessage from './PreparedMessage'
+import { ErrorSummary, FailNote, Honeypot, SuccessNote } from './FormStatus'
 
-const EXPERIENCE = ['Complete beginner', 'Some experience', 'Experienced trader']
-const METHODS = ['Online', 'In person in Kampala', 'No preference']
+const EXPERIENCE = ['Complete beginner', 'Some experience', 'Experienced trader'] as const
+const METHODS = ['Online', 'In person in Kampala', 'No preference'] as const
 
 export default function EnrollmentForm() {
   const [errors, setErrors] = useState<Errors>({})
-  const [prepared, setPrepared] = useState('')
+  const [sent, setSent] = useState(false)
+  const [failed, setFailed] = useState(false)
+  const [sending, setSending] = useState(false)
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const f = new FormData(e.currentTarget)
-    const name = String(f.get('name') ?? '').trim()
-    const email = String(f.get('email') ?? '').trim()
-    const phone = String(f.get('phone') ?? '').trim()
-    const experience = String(f.get('experience') ?? '')
-    const method = String(f.get('method') ?? '')
-    const message = String(f.get('message') ?? '').trim()
-
+    const data = new FormData(e.currentTarget)
     const next: Errors = {}
-    if (!name) next.name = 'Enter your full name.'
-    if (!email) next.email = 'Enter your email address.'
-    else if (!EMAIL_PATTERN.test(email)) next.email = 'Enter a valid email address, such as name@example.com.'
+    const name = nameError(data.get('name'))
+    const email = emailError(data.get('email'))
+    const phone = phoneError(data.get('phone'))
+    const experience = choiceError(data.get('experience'), EXPERIENCE)
+    const method = choiceError(data.get('method'), METHODS)
+    const message = messageError(data.get('message'), false)
+    if (name) next.name = name
+    if (email) next.email = email
+    if (phone) next.phone = phone
+    if (experience) next.experience = experience
+    if (method) next.method = method
+    if (message) next.message = message
     setErrors(next)
-    if (Object.keys(next).length) return
-
-    const subject = `Enrollment interest: ${course.title}`
-    const body = [
-      `Hello ${academy.name},`,
-      '',
-      `I am interested in enrolling in ${course.enrolmentLabel}.`,
-      '',
-      `Name: ${name}`,
-      `Email: ${email}`,
-      phone ? `Phone: ${phone}` : null,
-      `Current forex experience: ${experience}`,
-      `Preferred learning method: ${method}`,
-      message ? `\nMessage:\n${message}` : null,
-      '',
-      'Please send me the course fee, schedule and enrolment steps.',
-    ]
-      .filter((line): line is string => line !== null)
-      .join('\n')
-
-    setPrepared(`Subject: ${subject}\n\n${body}`)
-    if (hasEmail()) window.location.href = buildMailto(academy.contact.email, subject, body)
+    setFailed(false)
+    if (Object.keys(next).length) {
+      const id = ({ name: 'e-name', email: 'e-email', phone: 'e-phone', experience: 'e-experience', method: 'e-method', message: 'e-message' } as Record<string, string>)[
+        Object.keys(next)[0]
+      ]
+      if (id) document.getElementById(id)?.focus()
+      return
+    }
+    if (oneLine(data.get('company_website'), 200)) {
+      setSent(true)
+      return
+    }
+    setSending(true)
+    const ok = await sendInquiry(
+      {
+        Name: oneLine(data.get('name'), 80),
+        Email: oneLine(data.get('email'), 120),
+        Telephone: oneLine(data.get('phone'), 20),
+        Course: course.enrolmentLabel,
+        Experience: oneLine(data.get('experience'), 80),
+        'Preferred method': oneLine(data.get('method'), 80),
+        Message: clean(data.get('message'), 2000),
+        Source: 'Shefa Forex Academy enrollment form',
+      },
+      'Forex academy enrollment inquiry',
+      oneLine(data.get('email'), 120),
+    )
+    setSending(false)
+    if (ok) setSent(true)
+    else setFailed(true)
   }
 
+  if (sent) return <SuccessNote />
+
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-5">
+    <form onSubmit={onSubmit} noValidate className="relative grid gap-5">
       <div className="rounded-lg border border-gold/60 bg-[#eef2fc] p-4">
         <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-gold-deep">Course</p>
         <p className="mt-1 text-lg font-semibold text-navy">{course.enrolmentLabel}</p>
         <p className="mt-1 text-sm text-ink-muted">One enrolment covers the complete course. {course.statement}</p>
       </div>
+      <ErrorSummary errors={errors} />
+      {failed && <FailNote />}
+      <Honeypot />
       <FormField id="e-name" label="Full name" required error={errors.name}>
-        <input id="e-name" name="name" type="text" autoComplete="name" className={inputClass} aria-describedby={errors.name ? 'e-name-error' : undefined} aria-invalid={!!errors.name} />
+        <input id="e-name" name="name" type="text" autoComplete="name" maxLength={80} className={inputClass} aria-describedby={errors.name ? 'e-name-error' : undefined} aria-invalid={!!errors.name} />
       </FormField>
       <div className="grid gap-5 sm:grid-cols-2">
         <FormField id="e-email" label="Email" required error={errors.email}>
-          <input id="e-email" name="email" type="email" autoComplete="email" className={inputClass} aria-describedby={errors.email ? 'e-email-error' : undefined} aria-invalid={!!errors.email} />
+          <input id="e-email" name="email" type="email" autoComplete="email" maxLength={120} inputMode="email" className={inputClass} aria-describedby={errors.email ? 'e-email-error' : undefined} aria-invalid={!!errors.email} />
         </FormField>
-        <FormField id="e-phone" label="Phone number">
-          <input id="e-phone" name="phone" type="tel" autoComplete="tel" className={inputClass} />
+        <FormField id="e-phone" label="Phone number" error={errors.phone}>
+          <input id="e-phone" name="phone" type="tel" autoComplete="tel" maxLength={20} inputMode="tel" className={inputClass} aria-describedby={errors.phone ? 'e-phone-error' : undefined} aria-invalid={!!errors.phone} />
         </FormField>
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField id="e-experience" label="Your current forex experience" hint="This only helps the academy welcome you. Every level is covered by the one enrolment.">
-          <select id="e-experience" name="experience" className={inputClass}>
-            {EXPERIENCE.map((x) => (
-              <option key={x}>{x}</option>
+        <FormField id="e-experience" label="Your current forex experience" hint="This only helps the academy welcome you. Every level is covered by the one enrolment." error={errors.experience}>
+          <select id="e-experience" name="experience" className={inputClass} aria-invalid={!!errors.experience}>
+            {EXPERIENCE.map((item) => (
+              <option key={item}>{item}</option>
             ))}
           </select>
         </FormField>
-        <FormField id="e-method" label="Preferred learning method" hint="The academy confirms the available formats when it replies.">
-          <select id="e-method" name="method" className={inputClass}>
-            {METHODS.map((x) => (
-              <option key={x}>{x}</option>
+        <FormField id="e-method" label="Preferred learning method" hint="The academy confirms the available formats when it replies." error={errors.method}>
+          <select id="e-method" name="method" className={inputClass} aria-invalid={!!errors.method}>
+            {METHODS.map((item) => (
+              <option key={item}>{item}</option>
             ))}
           </select>
         </FormField>
       </div>
-      <FormField id="e-message" label="Additional message">
-        <textarea id="e-message" name="message" rows={4} className={inputClass} />
+      <FormField id="e-message" label="Additional message" error={errors.message}>
+        <textarea id="e-message" name="message" rows={4} maxLength={2000} className={inputClass} aria-describedby={errors.message ? 'e-message-error' : undefined} aria-invalid={!!errors.message} />
       </FormField>
       <div>
-        <button type="submit" className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-6 font-semibold text-white transition-colors hover:bg-[#2f54c7]">
-          Prepare enrollment inquiry
+        <button type="submit" disabled={sending} className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-6 font-semibold text-white transition-colors hover:bg-[#2f54c7] disabled:opacity-60">
+          {sending ? 'Sending…' : 'Send enrollment request'}
         </button>
-        <p className="mt-3 text-sm text-ink-muted">
-          This form does not enrol you, create an account or take any payment. It prepares an inquiry in your own email
-          application, so you need an email application set up on your device. Enrollment is only confirmed by the academy
-          after it replies.
-        </p>
+        <p className="mt-3 text-sm text-ink-muted">No payment is taken here. A place is confirmed only after the academy replies.</p>
       </div>
-      {prepared && <PreparedMessage text={prepared} />}
     </form>
   )
 }

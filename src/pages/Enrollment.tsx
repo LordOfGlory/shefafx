@@ -5,9 +5,9 @@ import { courseDurationText, courseFeeText } from '../config/academy'
 import { course } from '../data/course'
 
 const steps = [
-  'Fill in the form and prepare your inquiry.',
-  'Send the email from your own email application.',
-  'The academy replies with the course fee, schedule and enrolment steps.',
+  'Send the form. The academy receives it by email.',
+  'The academy replies with the fee, the schedule and the enrolment steps.',
+  'A place is confirmed only after that reply. Nothing is charged on this page.',
 ]
 
 export default function Enrollment() {

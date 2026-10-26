@@ -61,3 +61,13 @@ export const hasPhone = () => academy.contact.phone.trim().length > 0
 export const hasWhatsapp = () => academy.contact.whatsapp.trim().length > 0
 export const whatsappLink = () => `https://wa.me/${academy.contact.whatsapp.replace(/\D/g, '')}`
 export const instructorConfigured = () => academy.instructor.name.trim().length > 0
+
+/** Only https addresses are turned into links. Anything else is ignored. */
+export function safeHttps(url: string): string {
+  try {
+    const parsed = new URL(url.trim())
+    return parsed.protocol === 'https:' ? parsed.href : ''
+  } catch {
+    return ''
+  }
+}

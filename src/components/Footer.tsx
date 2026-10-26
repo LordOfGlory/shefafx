@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { academy, hasEmail, hasPhone, hasWhatsapp, whatsappLink } from '../config/academy'
+import { academy, hasEmail, hasPhone, hasWhatsapp, safeHttps, whatsappLink } from '../config/academy'
 
 const nav = [
   { to: '/', label: 'Home' },
@@ -16,7 +16,7 @@ const socials: { label: string; url: string }[] = [
   { label: 'Instagram', url: academy.social.instagram },
   { label: 'TikTok', url: academy.social.tiktok },
   { label: 'YouTube', url: academy.social.youtube },
-].filter((s) => s.url.trim())
+].filter((s) => safeHttps(s.url))
 
 const pending = <span className="italic text-slate-500">To be added</span>
 
@@ -63,7 +63,7 @@ export default function Footer() {
             <li>
               WhatsApp:{' '}
               {hasWhatsapp() ? (
-                <a className="underline hover:text-white" href={whatsappLink()} target="_blank" rel="noreferrer">
+                <a className="underline hover:text-white" href={whatsappLink()} target="_blank" rel="noopener noreferrer">
                   {academy.contact.phone || 'Chat on WhatsApp'}
                 </a>
               ) : (
@@ -77,7 +77,7 @@ export default function Footer() {
               <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
                 {socials.map((s) => (
                   <li key={s.label}>
-                    <a className="underline hover:text-white" href={s.url} target="_blank" rel="noreferrer">
+                    <a className="underline hover:text-white" href={safeHttps(s.url)} target="_blank" rel="noopener noreferrer">
                       {s.label}
                     </a>
                   </li>

@@ -13,9 +13,9 @@ export default function Privacy() {
         </p>
         <h2 className="text-2xl font-semibold text-navy">Forms</h2>
         <p>
-          The contact and enrollment forms do not send your details to this website or to any server. They prepare an email in
-          your own email application. Nothing is sent unless you press send there, and the message is then handled by your email
-          provider and the academy&rsquo;s email provider.
+          The contact and enrollment forms send only the details you type to {academy.contact.email}. The message is delivered
+          by email. This website does not keep a copy, does not create an account, and does not take payment. A hidden field
+          is used to reject automated submissions. Do not put passwords or payment details in the form.
         </p>
         <h2 className="text-2xl font-semibold text-navy">Fonts and hosting</h2>
         <p>
