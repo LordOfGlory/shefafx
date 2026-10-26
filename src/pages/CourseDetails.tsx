@@ -37,7 +37,7 @@ export default function CourseDetails() {
             </div>
           </div>
         </dl>
-        <Link to="/enroll" className="mt-8 inline-flex min-h-12 items-center rounded-md bg-gold px-6 font-semibold text-navy hover:bg-[#e2c15a]">
+        <Link to="/enroll" className="mt-8 inline-flex min-h-12 items-center rounded-md bg-gold px-6 font-semibold text-white hover:bg-[#2f54c7]">
           Enroll in the complete course
         </Link>
       </PageHeader>
@@ -126,7 +126,7 @@ export default function CourseDetails() {
             <p className="mx-auto mt-4 max-w-xl text-lg text-slate-300">
               Tell the academy you are interested and it will reply with the fee, schedule and next steps.
             </p>
-            <Link to="/enroll" className="mt-8 inline-flex min-h-12 items-center rounded-md bg-gold px-7 font-semibold text-navy hover:bg-[#e2c15a]">
+            <Link to="/enroll" className="mt-8 inline-flex min-h-12 items-center rounded-md bg-gold px-7 font-semibold text-white hover:bg-[#2f54c7]">
               Express Enrollment Interest
             </Link>
           </Reveal>

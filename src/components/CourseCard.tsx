@@ -56,7 +56,7 @@ export default function CourseCard() {
             </Link>
             <Link
               to="/enroll"
-              className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-5 font-semibold text-navy transition-colors hover:bg-[#e2c15a]"
+              className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-5 font-semibold text-white transition-colors hover:bg-[#2f54c7]"
             >
               Express Enrollment Interest
             </Link>

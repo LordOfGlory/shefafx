@@ -1,12 +1,12 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-navy: #0b1220;
-  --color-charcoal: #111827;
-  --color-gold: #d4af37;
-  --color-gold-deep: #8a6d0f;
-  --color-mist: #f3f4f6;
-  --color-ink-muted: #4b5563;
+  --color-navy: #171a20;
+  --color-charcoal: #171a20;
+  --color-gold: #3e6ae1;
+  --color-gold-deep: #2f54c7;
+  --color-mist: #f5f6f7;
+  --color-ink-muted: #5c5e62;
   --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-sans: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;

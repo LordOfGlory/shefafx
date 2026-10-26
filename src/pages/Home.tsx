@@ -122,7 +122,7 @@ export default function Home() {
               <Link to="/contact" className="inline-flex min-h-12 items-center rounded-md border border-navy px-6 font-semibold text-navy hover:bg-white">
                 Contact the academy
               </Link>
-              <Link to="/enroll" className="inline-flex min-h-12 items-center rounded-md bg-gold px-6 font-semibold text-navy hover:bg-[#e2c15a]">
+              <Link to="/enroll" className="inline-flex min-h-12 items-center rounded-md bg-gold px-6 font-semibold text-white hover:bg-[#2f54c7]">
                 Express enrollment interest
               </Link>
             </div>

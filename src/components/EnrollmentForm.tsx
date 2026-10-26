@@ -53,7 +53,7 @@ export default function EnrollmentForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="grid gap-5">
-      <div className="rounded-lg border border-gold/60 bg-[#fbf6e4] p-4">
+      <div className="rounded-lg border border-gold/60 bg-[#eef2fc] p-4">
         <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-gold-deep">Course</p>
         <p className="mt-1 text-lg font-semibold text-navy">{course.enrolmentLabel}</p>
         <p className="mt-1 text-sm text-ink-muted">One enrolment covers the complete course. {course.statement}</p>
@@ -89,7 +89,7 @@ export default function EnrollmentForm() {
         <textarea id="e-message" name="message" rows={4} className={inputClass} />
       </FormField>
       <div>
-        <button type="submit" className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-6 font-semibold text-navy transition-colors hover:bg-[#e2c15a]">
+        <button type="submit" className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-6 font-semibold text-white transition-colors hover:bg-[#2f54c7]">
           Prepare enrollment inquiry
         </button>
         <p className="mt-3 text-sm text-ink-muted">

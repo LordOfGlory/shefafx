@@ -70,7 +70,7 @@ export default function ContactForm() {
         <textarea id="c-message" name="message" rows={5} className={inputClass} aria-describedby={errors.message ? 'c-message-error' : undefined} aria-invalid={!!errors.message} />
       </FormField>
       <div>
-        <button type="submit" className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-6 font-semibold text-navy transition-colors hover:bg-[#e2c15a]">
+        <button type="submit" className="inline-flex min-h-12 items-center justify-center rounded-md bg-gold px-6 font-semibold text-white transition-colors hover:bg-[#2f54c7]">
           Prepare email
         </button>
         <p className="mt-3 text-sm text-ink-muted">

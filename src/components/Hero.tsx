@@ -28,7 +28,7 @@ export default function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/courses"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-gold px-6 font-semibold text-navy transition-colors hover:bg-[#e2c15a]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-gold px-6 font-semibold text-white transition-colors hover:bg-[#2f54c7]"
             >
               Explore Courses <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
@@ -42,7 +42,7 @@ export default function Hero() {
           <p className="mt-8 inline-block border-l-2 border-gold pl-4 font-mono text-sm text-slate-200">{course.statement}</p>
         </div>
 
-        <div className="hero-in-2 min-w-0 rounded-lg border border-white/10 bg-[#0e1a33] p-5">
+        <div className="hero-in-2 min-w-0 rounded-lg border border-white/10 bg-[#22262c] p-5">
           <div className="mb-2 flex justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.08em] text-slate-400">
             <span className="text-slate-200">Teaching illustration</span>
             <span>Bearish model</span>

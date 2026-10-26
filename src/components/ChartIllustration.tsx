@@ -23,7 +23,7 @@ const py = (p: number) => Y0 + ((PMAX - p) / (PMAX - PMIN)) * (Y1 - Y0)
 
 const BULL = '#2fa98c'
 const BEAR = '#e0654f'
-const GOLD = '#D4AF37'
+const GOLD = '#3e6ae1'
 
 const markers: [number, number, number][] = [
   [1, cx(12.5), py(69.5) - 22],
@@ -72,7 +72,7 @@ export default function ChartIllustration() {
       {markers.map(([n, x, y]) => (
         <g key={n}>
           <circle cx={x} cy={y} r="13" fill="#FFFFFF" stroke="#0E1A33" strokeWidth="2" />
-          <text x={x} y={y} textAnchor="middle" dominantBaseline="central" fill="#0B1220" fontFamily="JetBrains Mono, monospace" fontWeight="600" fontSize="14">
+          <text x={x} y={y} textAnchor="middle" dominantBaseline="central" fill="#171a20" fontFamily="JetBrains Mono, monospace" fontWeight="600" fontSize="14">
             {n}
           </text>
         </g>

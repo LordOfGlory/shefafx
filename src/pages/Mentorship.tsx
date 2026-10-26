@@ -89,7 +89,7 @@ export default function Mentorship() {
           <Reveal>
             <h2 className="text-3xl font-semibold text-white sm:text-4xl">Mentorship enquiries</h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-slate-300">Contact the academy for mentorship information.</p>
-            <Link to="/contact" className="mt-8 inline-flex min-h-12 items-center rounded-md bg-gold px-7 font-semibold text-navy hover:bg-[#e2c15a]">
+            <Link to="/contact" className="mt-8 inline-flex min-h-12 items-center rounded-md bg-gold px-7 font-semibold text-white hover:bg-[#2f54c7]">
               Contact the academy
             </Link>
           </Reveal>
