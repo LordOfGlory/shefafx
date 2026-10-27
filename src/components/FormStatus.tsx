@@ -32,8 +32,12 @@ export function SuccessNote() {
 }
 
 export function HandoffNote({ href }: { href: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    ref.current?.scrollIntoView({ block: 'start' })
+  }, [])
   return (
-    <div role="status" className="rounded-lg border border-[#c9d6f8] bg-[#eef2fc] px-5 py-5 text-navy">
+    <div ref={ref} role="status" className="scroll-mt-24 rounded-lg border border-[#c9d6f8] bg-[#eef2fc] px-5 py-5 text-navy">
       <p className="font-semibold">The form has been cleared.</p>
       <p className="mt-2 text-sm leading-relaxed text-ink-muted">
         The email service did not accept it. Send the same inquiry on WhatsApp. Your details are already in the message.
