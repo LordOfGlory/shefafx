@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { academy } from '../config/academy'
 import type { Errors } from '../lib/validate'
 
 export function ErrorSummary({ errors }: { errors: Errors }) {
@@ -32,10 +31,21 @@ export function SuccessNote() {
   )
 }
 
-export function FailNote() {
+export function HandoffNote({ href }: { href: string }) {
   return (
-    <div role="alert" className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-      The form could not be sent. Email {academy.contact.email} or WhatsApp {academy.contact.phone}.
+    <div role="status" className="rounded-lg border border-[#c9d6f8] bg-[#eef2fc] px-5 py-5 text-navy">
+      <p className="font-semibold">The form has been cleared.</p>
+      <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+        The email service did not accept it. Send the same inquiry on WhatsApp. Your details are already in the message.
+      </p>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 inline-flex min-h-12 items-center rounded-md bg-gold px-5 font-semibold text-white hover:bg-[#2f54c7]"
+      >
+        Open WhatsApp
+      </a>
     </div>
   )
 }

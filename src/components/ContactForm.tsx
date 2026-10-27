@@ -1,16 +1,16 @@
 import { useState, type FormEvent } from 'react'
 import { course } from '../data/course'
-import { sendInquiry } from '../lib/capture'
+import { sendInquiry, whatsappInquiry } from '../lib/capture'
 import { choiceError, clean, emailError, messageError, nameError, oneLine, phoneError, type Errors } from '../lib/validate'
 import FormField, { inputClass } from './FormField'
-import { ErrorSummary, FailNote, Honeypot, SuccessNote } from './FormStatus'
+import { ErrorSummary, HandoffNote, Honeypot, SuccessNote } from './FormStatus'
 
 const INTERESTS = [course.enrolmentLabel, 'Mentorship', 'General question'] as const
 
 export default function ContactForm() {
   const [errors, setErrors] = useState<Errors>({})
   const [sent, setSent] = useState(false)
-  const [failed, setFailed] = useState(false)
+  const [handoff, setHandoff] = useState('')
   const [sending, setSending] = useState(false)
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -29,7 +29,7 @@ export default function ContactForm() {
     if (interest) next.interest = interest
     if (message) next.message = message
     setErrors(next)
-    setFailed(false)
+    setHandoff('')
     if (Object.keys(next).length) {
       const id = ({ name: 'c-name', email: 'c-email', phone: 'c-phone', interest: 'c-interest', message: 'c-message' } as Record<string, string>)[
         Object.keys(next)[0]
@@ -38,25 +38,44 @@ export default function ContactForm() {
       return
     }
     if (oneLine(data.get('company_website'), 200)) {
+      form.reset()
       setSent(true)
       return
     }
+    const fullName = oneLine(data.get('name'), 80)
+    const emailAddress = oneLine(data.get('email'), 120)
+    const phoneNumber = oneLine(data.get('phone'), 20)
+    const interestLabel = oneLine(data.get('interest'), 160)
+    const note = clean(data.get('message'), 2000)
+    form.reset()
     setSending(true)
     const ok = await sendInquiry(
       {
-        Name: oneLine(data.get('name'), 80),
-        Email: oneLine(data.get('email'), 120),
-        Telephone: oneLine(data.get('phone'), 20),
-        Interest: oneLine(data.get('interest'), 160),
-        Message: clean(data.get('message'), 2000),
+        Name: fullName,
+        Email: emailAddress,
+        Telephone: phoneNumber,
+        Interest: interestLabel,
+        Message: note,
         Source: 'Shefa Forex Academy contact form',
       },
       'Forex academy contact inquiry',
-      oneLine(data.get('email'), 120),
+      emailAddress,
     )
     setSending(false)
-    if (ok) setSent(true)
-    else setFailed(true)
+    if (ok) {
+      setSent(true)
+      return
+    }
+    setHandoff(
+      whatsappInquiry([
+        'Hello Shefa Forex Academy,',
+        `Name: ${fullName}`,
+        `Email: ${emailAddress}`,
+        phoneNumber ? `Phone: ${phoneNumber}` : '',
+        `Interest: ${interestLabel}`,
+        `Message: ${note}`,
+      ]),
+    )
   }
 
   if (sent) return <SuccessNote />
@@ -64,7 +83,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={onSubmit} noValidate className="relative grid gap-5">
       <ErrorSummary errors={errors} />
-      {failed && <FailNote />}
+      {handoff && <HandoffNote href={handoff} />}
       <Honeypot />
       <FormField id="c-name" label="Full name" required error={errors.name}>
         <input id="c-name" name="name" type="text" autoComplete="name" maxLength={80} className={inputClass} aria-describedby={errors.name ? 'c-name-error' : undefined} aria-invalid={!!errors.name} />

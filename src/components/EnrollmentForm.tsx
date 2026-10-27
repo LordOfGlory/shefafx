@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { course } from '../data/course'
-import { sendInquiry } from '../lib/capture'
+import { sendInquiry, whatsappInquiry } from '../lib/capture'
 import { choiceError, clean, emailError, messageError, nameError, oneLine, phoneError, type Errors } from '../lib/validate'
 import FormField, { inputClass } from './FormField'
-import { ErrorSummary, FailNote, Honeypot, SuccessNote } from './FormStatus'
+import { ErrorSummary, HandoffNote, Honeypot, SuccessNote } from './FormStatus'
 
 const EXPERIENCE = ['Complete beginner', 'Some experience', 'Experienced trader'] as const
 const METHODS = ['Online', 'In person in Kampala', 'No preference'] as const
@@ -11,12 +11,13 @@ const METHODS = ['Online', 'In person in Kampala', 'No preference'] as const
 export default function EnrollmentForm() {
   const [errors, setErrors] = useState<Errors>({})
   const [sent, setSent] = useState(false)
-  const [failed, setFailed] = useState(false)
+  const [handoff, setHandoff] = useState('')
   const [sending, setSending] = useState(false)
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const data = new FormData(e.currentTarget)
+    const form = e.currentTarget
+    const data = new FormData(form)
     const next: Errors = {}
     const name = nameError(data.get('name'))
     const email = emailError(data.get('email'))
@@ -31,7 +32,7 @@ export default function EnrollmentForm() {
     if (method) next.method = method
     if (message) next.message = message
     setErrors(next)
-    setFailed(false)
+    setHandoff('')
     if (Object.keys(next).length) {
       const id = ({ name: 'e-name', email: 'e-email', phone: 'e-phone', experience: 'e-experience', method: 'e-method', message: 'e-message' } as Record<string, string>)[
         Object.keys(next)[0]
@@ -40,27 +41,49 @@ export default function EnrollmentForm() {
       return
     }
     if (oneLine(data.get('company_website'), 200)) {
+      form.reset()
       setSent(true)
       return
     }
+    const fullName = oneLine(data.get('name'), 80)
+    const emailAddress = oneLine(data.get('email'), 120)
+    const phoneNumber = oneLine(data.get('phone'), 20)
+    const experienceLevel = oneLine(data.get('experience'), 80)
+    const learningMethod = oneLine(data.get('method'), 80)
+    const note = clean(data.get('message'), 2000)
+    form.reset()
     setSending(true)
     const ok = await sendInquiry(
       {
-        Name: oneLine(data.get('name'), 80),
-        Email: oneLine(data.get('email'), 120),
-        Telephone: oneLine(data.get('phone'), 20),
+        Name: fullName,
+        Email: emailAddress,
+        Telephone: phoneNumber,
         Course: course.enrolmentLabel,
-        Experience: oneLine(data.get('experience'), 80),
-        'Preferred method': oneLine(data.get('method'), 80),
-        Message: clean(data.get('message'), 2000),
+        Experience: experienceLevel,
+        Method: learningMethod,
+        Message: note,
         Source: 'Shefa Forex Academy enrollment form',
       },
       'Forex academy enrollment inquiry',
-      oneLine(data.get('email'), 120),
+      emailAddress,
     )
     setSending(false)
-    if (ok) setSent(true)
-    else setFailed(true)
+    if (ok) {
+      setSent(true)
+      return
+    }
+    setHandoff(
+      whatsappInquiry([
+        'Hello Shefa Forex Academy, I want to enrol.',
+        `Name: ${fullName}`,
+        `Email: ${emailAddress}`,
+        phoneNumber ? `Phone: ${phoneNumber}` : '',
+        `Course: ${course.enrolmentLabel}`,
+        `Experience: ${experienceLevel}`,
+        `Method: ${learningMethod}`,
+        note ? `Message: ${note}` : '',
+      ]),
+    )
   }
 
   if (sent) return <SuccessNote />
@@ -73,7 +96,7 @@ export default function EnrollmentForm() {
         <p className="mt-1 text-sm text-ink-muted">One enrolment covers the complete course. {course.statement}</p>
       </div>
       <ErrorSummary errors={errors} />
-      {failed && <FailNote />}
+      {handoff && <HandoffNote href={handoff} />}
       <Honeypot />
       <FormField id="e-name" label="Full name" required error={errors.name}>
         <input id="e-name" name="name" type="text" autoComplete="name" maxLength={80} className={inputClass} aria-describedby={errors.name ? 'e-name-error' : undefined} aria-invalid={!!errors.name} />
