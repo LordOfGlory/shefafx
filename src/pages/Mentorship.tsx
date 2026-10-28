@@ -19,7 +19,7 @@ const suitable = [
 const topics = [
   'Practical market analysis',
   'Market structure and price action',
-  'ICT and Smart Money Concepts in practice',
+  'Liquidity and price action in practice',
   'Risk management and position sizing',
   'Trading psychology and journaling',
   'Reviewing and improving a trading plan',

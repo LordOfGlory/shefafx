@@ -27,7 +27,7 @@ export const course = {
     'Technical Analysis',
     'Intermediate Strategies',
     'Advanced Trading',
-    'ICT and Smart Money Concepts',
+    'Liquidity and Price Delivery',
     'Risk Management',
     'Trading Psychology',
     'Professional Development',
@@ -36,7 +36,7 @@ export const course = {
     'Explain how the forex market works, including pairs, pips, lots, spreads and leverage.',
     'Read candlestick charts and identify market structure, support and resistance, and trend.',
     'Build and refine trading strategies using price action and trading sessions.',
-    'Apply ICT and Smart Money Concepts such as liquidity, fair value gaps and order blocks.',
+    'Read liquidity, fair value gaps and order blocks on a chart.',
     'Size positions, place stop losses and plan risk before every trade.',
     'Manage emotions, avoid overtrading and keep a trading journal.',
     'Backtest a strategy and document it as a written trading plan.',
@@ -44,7 +44,7 @@ export const course = {
   whoShouldEnrol: [
     'Beginners who want a structured start instead of piecing information together online.',
     'Traders with some experience who want to fill gaps in technical analysis and risk management.',
-    'Experienced traders who want to study price action, liquidity and ICT and Smart Money Concepts in depth.',
+    'Experienced traders who want to study price action and liquidity in depth.',
     'Students interested in financial markets who want practical, disciplined education.',
   ],
   skills: [
@@ -110,9 +110,9 @@ export const modules: Module[] = [
   },
   {
     number: 5,
-    title: 'ICT and Smart Money Concepts',
+    title: 'Liquidity and Price Delivery',
     stage: 'Advanced',
-    summary: 'The ICT and Smart Money framework for reading institutional behaviour on the chart.',
+    summary: 'How liquidity, imbalances and session timing show up on the chart.',
     topics: [
       'Market structure',
       'Liquidity',

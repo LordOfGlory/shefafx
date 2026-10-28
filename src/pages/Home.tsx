@@ -15,7 +15,7 @@ const features = [
   { icon: Target, title: 'Practical Trading Education', text: 'Lessons are built around chart analysis and worked demonstrations, not theory alone.' },
   { icon: ShieldCheck, title: 'Risk Management', text: 'Position sizing and capital protection are taught as core skills, not an afterthought.' },
   { icon: Brain, title: 'Trading Psychology', text: 'Learn to manage losses, avoid overtrading and keep a journal you can learn from.' },
-  { icon: TrendingUp, title: 'Technical Analysis', text: 'Market structure, price action, and ICT and Smart Money Concepts studied in depth.' },
+  { icon: TrendingUp, title: 'Technical Analysis', text: 'Market structure and price action studied in depth.' },
   { icon: RefreshCw, title: 'Continuous Learning', text: 'A review habit and a written trading plan that keep your development going after the course.' },
 ]
 
@@ -33,7 +33,7 @@ export default function Home() {
             <div className="grid gap-5 text-lg leading-relaxed text-ink-muted">
               <p>
                 {academy.name} is a forex trading education academy based in {academy.location}. It teaches beginners, traders
-                with some experience, and advanced traders who want to study price action and ICT and Smart Money Concepts.
+                with some experience, and advanced traders who want to study price action in depth.
               </p>
               <p>
                 Students learn how the market works, how to read charts, how to build and test a strategy, and how to protect

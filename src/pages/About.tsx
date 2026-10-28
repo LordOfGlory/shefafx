@@ -41,7 +41,7 @@ export default function About() {
               </p>
               <p>
                 We serve beginners starting from zero, traders who want to fill gaps in their knowledge, and advanced traders
-                interested in ICT and Smart Money Concepts. Everyone follows the same structured course.
+                interested in a deeper study of price action. Everyone follows the same structured course.
               </p>
             </div>
           </div>
